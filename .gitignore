@@ -1,0 +1,9 @@
+datasets/
+filtered_dataset/
+labeled_dataset/
+raw_dataset/
+
+models/
+
+SNAPSHOT_01_SnowPetrel-Adam-2024-10-09/
+SnowPetrel-Adam-2024-10-09/
