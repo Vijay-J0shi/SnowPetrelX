@@ -1,0 +1,99 @@
+{
+    "Task": "SnowPetrel",
+    "engineer": "Adam-Al-Rahman",
+    "date": "Oct9",
+    "project_path": "SnowPetrel/SnowPetrel-Adam-2024-10-09",
+    "engine": "pytorch",
+    "bodyparts": [
+        "head",
+        "beak_base",
+        "beak_tip",
+        "neck",
+        "body1",
+        "body2",
+        "tail_base"
+    ],
+    "skeleton": [
+        [
+            "head",
+            "beak_base"
+        ],
+        [
+            "beak_base",
+            "beak_tip"
+        ],
+        [
+            "head",
+            "neck"
+        ],
+        [
+            "neck",
+            "body1"
+        ],
+        [
+            "body1",
+            "body2"
+        ],
+        [
+            "body2",
+            "tail_base"
+        ]
+    ],
+    "skeleton_color": "black",
+    "pcutoff": 0.6,
+    "dotsize": 4,
+    "alphavalue": 0.7,
+    "dataset": {
+        "img_width": 320,
+        "img_height": 240,
+        "num_keypoints": 7
+    },
+    "model": {
+        "pose_estimation": {
+            "model_file": "models/pose_estimation\\sp_pe_resnet50_batch_norm2d_swish_dropout_epochs200_lr1e-05_2024-11-22T09-21.pth",
+            "architecture": "resnet50_batch_norm2d_swish_dropout",
+            "epochs": 200,
+            "batch_size": 16,
+            "learning_rate": 1e-05,
+            "optimizer": "Adam",
+            "criterion": "MSELoss",
+            "evaluation_metric": "PCKh",
+            "head_threshold": 0.1,
+            "device_like_type": "cuda"
+        },
+        "classification": {
+            "model_file": "models/classification\\sp_cls_gcn_gru_relu_dropout_epochs50_lr0.0001_2024-11-22T22-01.pth",
+            "architecture": "gcn_gru_relu_dropout",
+            "labels": [
+                "nesting",
+                "preening"
+            ],
+            "hidden_dim": 128,
+            "edges": [
+                [
+                    0,
+                    1,
+                    0,
+                    3,
+                    4,
+                    5
+                ],
+                [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                ]
+            ],
+            "epochs": 50,
+            "batch_size": 16,
+            "learning_rate": 0.0001,
+            "optimizer": "Adam",
+            "criterion": "BCEWithLogitsLoss",
+            "evaluation_metric": "precision_recall_fscore",
+            "device_like_type": "cuda"
+        }
+    }
+}
