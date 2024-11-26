@@ -1,6 +1,6 @@
 # SnowPetrel
 
-Pose Estimation and Behavior Classification of Snow Petrel Bird.
+Pose Estimation and Behavior Classification of Snow Petrel Bird with Batch Inference.
 
 
 ## Pose Estimation
@@ -8,7 +8,6 @@ Pose Estimation and Behavior Classification of Snow Petrel Bird.
 1. ResNet50
 2. Conv Head
 3. Output (Number of Keypoints)
-
 
 ## Classification
 
@@ -21,7 +20,7 @@ Graph Feature Extractor (GCN):
     - Models relationships between body parts
     - Outputs spatial embeddings [T, num_keypoints, d]
     ↓
-Temporal Module (GRU or Transformer):
+Temporal Module (GRU ):
     - Captures temporal dynamics in keypoint movement
     - Outputs temporal embeddings [T, d]
     ↓

@@ -151,6 +151,7 @@ def pckh(predictions, ground_truth, head_size, threshold=0.2):
     
     return pckh.item()
 
+# TODO(Adam-Al-Rahman): remove after testing phase
 # The Average PCKh (Percentage of Correct Keypoints with Head Normalization) being 94% means that on average,
 # only 94% of the predicted keypoints are within the specified "threshold=0.2" (e.g., 20% of the head size) across the dataset.
 
@@ -255,6 +256,32 @@ def plot(model, data_loader, device, kp_denormalize, plot_num_batches=1):
                 plt.show()
             
             batch_count += 1
+
+
+def result(model, data_loader, device, kp_denormalize):
+    model.eval()  # Set model to evaluation mode
+    all_predictions = []  # List to accumulate predictions for all batches
+
+    with torch.inference_mode():
+        for images, ground_truth_kps in data_loader:
+            images = images.to(device)
+
+            # Convert ground truth keypoints to numpy and denormalize
+            ground_truth_kps = kp_denormalize(ground_truth_kps).cpu().numpy()
+            ground_truth_kps = ground_truth_kps.reshape(-1, ground_truth_kps.shape[1] // 2, 2)  # Reshape to (B, N, 2)
+
+            # Get predictions and denormalize
+            predictions = model(images).cpu().numpy()
+            predictions = kp_denormalize(torch.tensor(predictions)).cpu().numpy()
+
+            # Append batch predictions to the results list
+            all_predictions.append(predictions)
+
+    # Convert the list of numpy arrays to a single numpy array, then to a tensor
+    all_predictions = np.concatenate(all_predictions, axis=0)
+    return torch.tensor(all_predictions)
+
+
 
 # MODEL Architecture
 
